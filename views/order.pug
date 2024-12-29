@@ -1,0 +1,81 @@
+doctype html
+html
+  head
+    title 주문 페이지
+    script.
+      // 쿠폰 선택 시 할인 적용
+      function applyCoupon() {
+        var couponSelect = document.getElementById('couponSelect');
+        var couponValue = couponSelect.value;
+        var price = parseInt(document.getElementById('totalPrice').innerText.replace('총 결제 금액: ', '').replace('원', '').trim());
+
+        // 쿠폰 선택에 따른 할인 금액 계산
+        var discount = 0;
+        if (couponValue === '1000') {
+          discount = 1000;  // 1000원 할인
+        } else if (couponValue === '10') {
+          discount = price * 0.1;  // 10% 할인
+        }
+
+        // 할인 금액과 최종 결제 금액 갱신
+        var discountedPrice = document.getElementById('discountedPrice');
+        var totalPrice = document.getElementById('totalPrice');
+
+        discountedPrice.innerText = '할인 금액: ' + discount + '원';
+        totalPrice.innerText = '총 결제 금액: ' + (price - discount) + '원';
+
+        // hidden 값에 할인된 가격과 할인 금액을 업데이트
+        document.getElementById('discountValue').value = discount;
+        document.getElementById('finalPrice').value = price - discount;
+      }
+
+  body
+    h1 주문 목록
+
+    // 주문 정보를 표시하는 테이블
+    table
+      thead
+        tr
+          th 책 이름
+          th 가격
+          th 수량
+      tbody
+        each order in orderPages
+          tr
+            td= order.bookName
+            td= order.bookPrice
+            td= order.productCount
+
+    // 전체 결제를 위한 폼
+    form(action='/order/list', method='POST')
+      // 각 주문 항목을 hidden으로 포함
+      each order in orderPages
+        input(type='hidden', name='orderIds[]', value=order.idCartList)
+        input(type='hidden', name='bookNames[]', value=order.bookName)
+        input(type='hidden', name='bookPrices[]', value=order.bookPrice)
+        input(type='hidden', name='productCounts[]', value=order.productCount)
+
+      h3 총 금액
+      p(style="height:24px;")= price
+
+      h3 할인 금액
+      p(id="discountedPrice") 할인 금액: 0원
+
+      h3 최종 결제 금액
+      p(id="totalPrice") 총 결제 금액: #{price}원
+
+      h3 쿠폰 선택
+      select#couponSelect(name="selectedCoupon", onchange="applyCoupon()")
+        option(value=null) 쿠폰을 선택하세요
+        option(value='1000') 1000원 할인
+        option(value='10') 10% 할인
+
+      // 결제하기 버튼
+      button(type='submit') 결제하기
+
+      // 결제 화면에서 취소 버튼 클릭 시
+      button(type="button" onclick="window.location.href='/cartlist'") 취소
+
+      // 할인 금액과 최종 결제 금액을 hidden으로 전송
+      input(type='hidden', id="discountValue", name="discountValue", value="0")
+      input(type='hidden', id="finalPrice", name="finalPrice", value=price)

@@ -1,0 +1,58 @@
+.container
+  form(action=`/product/cart/add`, method='post') 
+    input(type="hidden" name="product_idProduct" value=product.idProduct)
+    
+    div
+      a(href='/product') 목록
+
+    div
+      strong 도서명
+    div
+      span= product.bookName
+
+    div
+      strong 가격
+    div
+      span= product.bookPrice
+
+    div
+      strong 설명
+      div
+      span= product.content
+
+    div
+      input(type="number" id="quantity" name="productCount" placeholder="수량을 입력해주세요")
+
+    div
+      button(type='submit') 장바구니 담기
+
+  if reviews && reviews.length > 0
+    h2 기존 리뷰
+    each review in reviews
+      div.review-item
+        div
+          strong 평가점수:
+          span= review.평가점수
+        div
+          strong 한줄평가:
+          span= review.한줄평가
+        div
+          strong 평가일자:
+          span= review.평가일자
+  else
+    h2 기존 리뷰
+    p 아직 리뷰가 없습니다.
+
+  h2 리뷰 작성
+  form(action=`/product/detail/${product.idProduct}`, method='post')
+    div
+      label(for='평가점수') 평가점수:
+      input(type='number' id='평가점수' name='평가점수' min='1' max='5' required)
+    div
+      label(for='한줄평가') 한줄평가:
+      textarea(id='한줄평가' name='한줄평가' rows='3' required)
+    div
+      button(type='submit') 리뷰 남기기
+
+  form(action='/order', method='get')
+    button(type='submit') 바로주문하기

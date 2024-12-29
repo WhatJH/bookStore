@@ -1,0 +1,60 @@
+.container
+  //- div 
+  //-   a(href="/cartlist") 장바구니가기
+  //- div 
+  //-   a(href="/product/add") 도서 상품 등록
+  //- div
+  //-   a(href="/product/update") 도서 상품 수정
+
+  //- 검색
+  form(action='/product/search', method='get')
+    input(type='text', name='bookName', placeholder='책 제목을 입력하세요') 
+    button(type='submit') 검색
+
+  div 
+  a(href="/cartlist") 장바구니
+
+
+  h1 상품 목록
+  if products && products.length
+    each product in products
+      form(action="/product/cart/add", method="post")
+        // Product ID를 hidden input으로 추가
+        input(type="hidden" name="product_idProduct" value=product.idProduct)
+        
+        div 
+          a(href=`/product/detail/${product.idProduct}`) #{product.bookName}
+        div
+          input(type="number" id="quantity" name="productCount" placeholder="수량을 입력해주세요")
+        div #{product.bookPrice}원
+        button(type="submit") 장바구니에 담기
+  else
+    p 제품이 없습니다.
+
+
+
+
+
+
+
+//- .container
+//-   //- div 
+//-   //-   a(href="/cartlist") 장바구니가기
+//-   //- div 
+//-   //-   a(href="/product/add") 도서 상품 등록
+//-   //- div
+//-   //-   a(href="/product/update") 도서 상품 수정
+
+//-   h1 상품 목록
+//-   if products && products.length
+//-     each product in products
+//-       form(action="/cartlist/info", method="post")
+//-         input(type="hidden" id="id" name="product_idProduct" value=product.idProduct)
+//-         a(href=`/product/detail/${product.idProduct}`) #{product.bookName}
+//-         div
+//-           input(type="number" id="quantity" name="productCount" placeholder="수량을 입력해주세요")
+//-         div #{product.bookPrice}원
+//-           button(type="submit") 장바구니에 담기
+//-   else
+//-     p 제품이 없습니다.
+

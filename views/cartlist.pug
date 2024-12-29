@@ -1,0 +1,37 @@
+.container
+
+  form(action='/product/search', method='get')
+    input(type='text', name='bookName', placeholder='책 제목을 입력하세요') 
+    button(type='submit') 검색
+
+  div 
+    a(href="/product") 도서목록
+
+  h1 장바구니
+  if cartlist && cartlist.length > 0
+    each item in cartlist
+      if item.productCount > 0
+        div
+          h3
+            span #{item.bookName} 
+          div 
+            a 가격
+              span #{item.productCount * item.bookPrice}
+          div
+            form(action='/cartlist/update', method='post')
+              input(type='hidden', name='idCartList', value=item.idCartList) 
+              input(type='hidden', name='Product_idProduct', value=item.Product_idProduct) 
+              input(type='number', name='productCount', value=item.productCount, min='1', max=item.quantity)
+              button(type='submit') 수정 
+
+    //- 주문하기 버튼을 POST 요청으로 변경
+    //- 얘를 order로 경로를 바꿔주어야함.
+    //- form(action='/order/list', method='post')
+    form(action='/order', method='get')
+    
+      //- input(type="text" , name ="userName", placeholder="사용자 이름을 입력해주세요")
+      input(type="hidden" , name ="item" value=cartlist)
+
+      button(type='submit') 주문하기
+  else
+    p 장바구니가 비었습니다.

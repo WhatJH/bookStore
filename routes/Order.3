@@ -1,0 +1,47 @@
+// 주문 리스트 처리
+router.post('/list', async (req, res) => {
+  const user_idUser = 1;
+  
+  try {
+    // 장바구니에서 사용자별 데이터 조회
+    const cartList = await req.db.query(`
+      SELECT cl.idCartList, cl.productCount, cl.User_idUser, 
+      p.idProduct, p.bookName, p.bookPrice
+      FROM cartList cl
+      JOIN product p ON cl.Product_idProduct = p.idProduct
+      WHERE cl.User_idUser = ?
+    `, [user_idUser]);
+
+    // 장바구니에서 총 가격 계산
+    const totalPrice = cartList.reduce((total, item) => total + (item.productCount * item.bookPrice), 0);
+
+    // 주문 정보 삽입
+    const orderResult = await req.db.query(
+      'INSERT INTO Orders (totalPrice, User_idUser) VALUES (?, ?)',
+      [totalPrice, user_idUser]
+    );
+    const orderId = orderResult.insertId;  // 새로 생성된 주문 ID
+
+    // 장바구니에 있는 각 상품을 OrderList에 추가
+    for (let item of cartList) {
+      await req.db.query(
+        'INSERT INTO OrderList (orderListCount, Orders_idOrders, Product_idProduct) VALUES (?, ?, ?)',
+        [item.productCount, orderId, item.idProduct]
+      );
+    }
+
+    console.log('주문 ID:', orderId);
+
+    // 장바구니에서 해당 항목 삭제
+    await req.db.query(
+      'DELETE FROM CartList WHERE User_idUser = ?',
+      [user_idUser]
+    );
+
+    // 주문 리스트 페이지로 이동
+    res.render('orderlist', { orderId, cartList });
+  } catch (error) {
+    console.error('주문 처리 도중 오류 발생:', error);
+    res.status(500).send('결제 도중 오류 발생했음');
+  }
+});

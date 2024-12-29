@@ -1,0 +1,8 @@
+.container
+  form(action=`/product/update/${product.idProduct}`, method='get')
+    input(type='hidden', id='id', name='id', value=product.idProduct)
+    input(type='text', id='name', name='name', value=product.bookName)
+    input(type='text', id='price', name='price', value=product.bookPrice)
+    input(type='text', id='content', name='content', value=product.content)
+
+    button(type='submit') 수정하기

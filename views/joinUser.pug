@@ -1,0 +1,19 @@
+html
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    h1 회원가입
+    form(action='/join' method='post')
+      p
+        label(for='userName') 이름
+        input(type='text' name='userName' placeholder='이름을 입력해주세요')
+      p
+        label(for='password') 비밀번호
+        input(type='password' name='password' placeholder='비밀번호를 입력해주세요')
+      p
+        label(for='phoneNumber') 전화번호
+        input(type='text' name='phoneNumber' placeholder='전화번호를 입력해주세요')
+      p
+        button(type='submit') 가입하기

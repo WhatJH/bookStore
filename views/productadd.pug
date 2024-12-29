@@ -1,0 +1,20 @@
+.container
+  div 
+  a(href="/cart") 장바구니
+  div 
+  a(href="/product/add") 책추가
+    p 책 추가
+      form(action="/product/add" method="post")
+        div 
+          input(type="text" name="bookName" placeholder="도서명을 기입하시오")
+        div 
+          input(type="text" name="bookPrice" placeholder="가격을 기입하시오")
+        div 
+          input(type="text" name="quantity" placeholder="수량을 기입하시오")
+        div 
+          input(type="text" name="quantity" placeholder="내용을 기입하시오")
+        div 
+          button(type="summit") 도서 추가
+  body
+    block content
+          

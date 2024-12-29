@@ -1,0 +1,21 @@
+doctype html
+html
+    head
+    title 베스트셀러 순위
+    body
+    h1 베스트셀러 순위
+
+    //- table
+    //-   thead
+    //-     tr
+    //-       th 날짜
+    //-       th 순위
+    //-       th 도서번호
+    //-       th 판매량
+    //-   tbody
+        //- each book in bestsellers
+          tr
+            td= book.날짜
+            td= book.순위
+            td= book.도서번호
+            td= book.판매량

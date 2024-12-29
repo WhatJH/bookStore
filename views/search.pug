@@ -1,0 +1,15 @@
+.container
+    div
+    a(href='/product') 책 목록
+    div
+    a(href="/cartlist") 장바구니가기
+
+    h1 검색 결과
+    if products && products.length > 0
+        each product in products
+            div
+                a(href=`/product/detail/${product.idProduct}`) #{product.bookName}
+                p 가격: #{product.bookPrice} 원
+                input(type="hidden" name="product_idProduct" value=product.idProduct)
+    else
+        p 해당 책이 없습니다.

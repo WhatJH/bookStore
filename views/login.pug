@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    p 로그인
+      form(action="/login/signin" method="post")
+        div
+          input(type="text" name="userName" placeholder="Enter your name")
+        div
+          input(type="password" name="userPassword" placeholder="Enter your password")
+        div
+          button(type="submit") signup
+    p 회원가입
+      form(action="/login/signup" method="post")
+        div
+          input(type="text" name="userName" placeholder="Enter your id")
+        div
+          input(type="password" name="userPassword" placeholder="Enter your password")
+        div
+          input(type="phoneNumber" name="phoneNumber" placeholder="Enter your phoneNumber")
+        div
+          button(type="submit") signup
+  body
+    block content

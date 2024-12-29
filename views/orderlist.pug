@@ -1,0 +1,17 @@
+h1 주문 리스트
+if Orders && Orders.length > 0
+  table
+    thead
+      tr
+        th 주문 번호
+        th 총 가격
+        th 주문 시간
+    tbody
+      each order in Orders
+        tr
+          td= order.idOrders
+          td= order.totalPrice
+          // JavaScript를 사용하여 날짜 형식 변환
+          td= new Date(order.orderTime).toLocaleString()
+else
+  p 주문 내역이 없습니다.
